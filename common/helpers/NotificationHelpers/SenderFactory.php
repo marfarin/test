@@ -6,7 +6,7 @@
  * Time: 15:45
  */
 
-namespace app\components\senders;
+namespace common\helpers\NotificationHelpers;
 
 use common\helpers\NotificationHelpers\AbstractNotificationHelper;
 use frontend\models\ConfigureModelEvent;
@@ -21,9 +21,9 @@ class SenderFactory
      */
     public static function getSender($senderClass, $configureModelEvent, $model)
     {
-        if ($senderClass::className() instanceof AbstractNotificationHelper) {
-            $senderClass = $senderClass::className();
-            $sender = new $senderClass;
+        $senderClass = $senderClass::className();
+        $sender = new $senderClass;
+        if ($sender instanceof AbstractNotificationHelper) {
             /**
              * @var AbstractNotificationHelper $sender
              */
@@ -31,5 +31,6 @@ class SenderFactory
             $sender->configureModelEvent = $configureModelEvent;
             return $sender;
         }
+        return null;
     }
 }

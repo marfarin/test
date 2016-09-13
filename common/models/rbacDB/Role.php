@@ -1,12 +1,18 @@
 <?php
 namespace common\models\rbacDB;
 
-use Exception;
 use common\components\AuthHelper;
+use common\models\User;
+use Exception;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\rbac\DbManager;
 
+/**
+ * Class Role
+ * @package common\models\rbacDB
+ * @property User[] $users
+ */
 class Role extends AbstractItem
 {
     const ITEM_TYPE = self::TYPE_ROLE;
@@ -132,5 +138,14 @@ class Role extends AbstractItem
         AuthHelper::invalidatePermissions();
 
         return true;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsers()
+    {
+        return $this->hasMany(User::className(), ['id' => 'user_id'])->viaTable('auth_assignment',
+            ['item_name' => 'name']);
     }
 }

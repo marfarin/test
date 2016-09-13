@@ -12,7 +12,7 @@ use frontend\models\AlertUserQuery;
 use frontend\models\ConfigureModelEvent;
 use yii\base\BootstrapInterface;
 use yii\base\Event;
-use app\components\senders\SenderFactory;
+use common\helpers\NotificationHelpers\SenderFactory;
 
 class EventNotificator implements BootstrapInterface
 {
@@ -30,7 +30,7 @@ class EventNotificator implements BootstrapInterface
         foreach ($events as $userEvent) {
             $className = $userEvent->eventClass->class_name;
             $eventName = $userEvent->eventClass->event_name;
-            Event::on($className::className(), $eventName, function ($event) use ($userEvent) {
+                Event::on($className::className(), $eventName, function ($event) use ($userEvent) {
                 foreach ($userEvent->notificationTypes as $notificationType) {
                     $sender = SenderFactory::getSender($notificationType->class_name, $userEvent, $event->sender);
                     $sender->send();

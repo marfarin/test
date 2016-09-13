@@ -2,14 +2,23 @@
 
 namespace common\helpers\NotificationHelpers;
 
-use common\components\Model;
+use yii\base\Model;
 use common\models\rbacDB\Role;
+use common\models\User;
+use frontend\models\ConfigureModelEvent;
 
 /**
  * Created by PhpStorm.
  * User: panik
  * Date: 06.09.16
  * Time: 17:56
+ */
+
+/**
+ * Class AbstractNotificationHelper
+ * @package common\helpers\NotificationHelpers
+ * @property ConfigureModelEvent $configureModelEvent
+ * @property Model $model
  */
 abstract class AbstractNotificationHelper extends Model
 {
@@ -30,30 +39,8 @@ abstract class AbstractNotificationHelper extends Model
         $matches = [];
         preg_match_all($templatePattern,$header,$matches);
         $templates = array_unique($matches[1]);
-        $model = $this->model;
-        $author = $this->configureModelEvent->sender;
-        foreach($templates as $template){
-            $type = self::getTemplateType($template);
-            switch($type){
-                case 'user':
-                    $field=substr($template,4);
-                    $header = str_replace('{'.$template.'}',$user[$field],$header);
-                    break;
-                case 'model':
-                    $field=substr($template,5);
-                    $header = str_replace('{'.$template.'}',$model[$field],$header);
-                    break;
-                case 'author':
-                    $field=substr($template,6);
-                    $header = str_replace('{'.$template.'}',$author[$field],$header);
-                    break;
-                default:
-                    $field=null;
-                    $header = str_replace('{'.$template.'}',\Yii::$app->params[$template],$header);
-                    break;
-            }
-        }
-        return $header;
+
+        return $this->parseText($templates, $user, $header);
     }
     
     protected function getText($user)
@@ -63,30 +50,8 @@ abstract class AbstractNotificationHelper extends Model
         $matches = [];
         preg_match_all($templatePattern,$text,$matches);
         $templates = array_unique($matches[1]);
-        $model = $this->model;
-        $author = $this->configureModelEvent->sender;
-        foreach($templates as $template){
-            $type = self::getTemplateType($template);
-            switch($type){
-                case 'user':
-                    $field=substr($template,4);
-                    $text = str_replace('{'.$template.'}',$user[$field],$text);
-                    break;
-                case 'model':
-                    $field=substr($template,5);
-                    $text = str_replace('{'.$template.'}',$model[$field],$text);
-                    break;
-                case 'sender':
-                    $field=substr($template,6);
-                    $text = str_replace('{'.$template.'}',$author[$field],$text);
-                    break;
-                default:
-                    $field=null;
-                    $text = str_replace('{'.$template.'}',\Yii::$app->params[$template],$text);
-                    break;
-            }
-        }
-        return $text;
+
+        return $this->parseText($templates, $user, $text);
     }
 
     private static function getTemplateType($template)
@@ -99,6 +64,44 @@ abstract class AbstractNotificationHelper extends Model
         return $str==='user' ? $str : 'global';
     }
 
+    /**
+     * @param string[] $templates
+     * @param User $user
+     * @param string $text
+     * @return string
+     */
+    protected function parseText($templates, $user, $text)
+    {
+
+        $model = $this->model;
+        $author = $this->configureModelEvent->sender;
+        foreach($templates as $template) {
+            $type = self::getTemplateType($template);
+            switch ($type) {
+                case 'user':
+                    $field = substr($template, 5);
+                    $text = str_replace('{' . $template . '}', $user[$field], $text);
+                    break;
+                case 'model':
+                    $field = substr($template, 6);
+                    $text = str_replace('{' . $template . '}', $model[$field], $text);
+                    break;
+                case 'sender':
+                    $field = substr($template, 7);
+                    $text = str_replace('{' . $template . '}', $author[$field], $text);
+                    break;
+                default:
+                    $field = null;
+                    $text = str_replace('{' . $template . '}', \Yii::$app->params[$template], $text);
+                    break;
+            }
+        }
+        return $text;
+    }
+
+    /**
+     * @return User[]
+     */
     protected function users()
     {
         $users = $this->configureModelEvent->users;
@@ -106,10 +109,14 @@ abstract class AbstractNotificationHelper extends Model
         /**
          * @var Role[] $roles
          */
+        $userByRole = [];
+            
         foreach ($roles as $role) {
-           
+            array_unique(array_merge($userByRole, $role->users));
         }
-        
+
+        array_unique(array_merge($users, $userByRole));
+
         return $users;
     }
 }
