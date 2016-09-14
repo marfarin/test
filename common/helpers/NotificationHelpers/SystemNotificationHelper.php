@@ -20,7 +20,7 @@ class SystemNotificationHelper extends AbstractNotificationHelper
 
     public function send()
     {
-        $users = $this->users();
+        $users = $this->users;
         $author = $this->configureModelEvent->sender;
         foreach ($users as $user) {
             $notification = new AlertUserQuery();

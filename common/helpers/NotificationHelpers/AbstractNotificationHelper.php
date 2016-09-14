@@ -19,12 +19,15 @@ use frontend\models\ConfigureModelEvent;
  * @package common\helpers\NotificationHelpers
  * @property ConfigureModelEvent $configureModelEvent
  * @property Model $model
+ * @property User[] $users
  */
 abstract class AbstractNotificationHelper extends Model
 {
     public $configureModelEvent;
     
     public $model;
+
+    public $users;
     
     abstract protected function send();
 
@@ -100,9 +103,10 @@ abstract class AbstractNotificationHelper extends Model
     }
 
     /**
+     * @param $notificationType
      * @return User[]
      */
-    protected function users()
+    public function getUsers($notificationType)
     {
         $users = $this->configureModelEvent->users;
         $roles = $this->configureModelEvent->roles;
@@ -122,6 +126,24 @@ abstract class AbstractNotificationHelper extends Model
             $uniqueUsers[$item->id] = $item;
         }
 
-        return $uniqueUsers;
+        foreach ($users as $item) {
+            $uniqueUsers[$item->id] = $item;
+        }
+
+        $filteredUsers = [];
+
+        /**
+         * @var User[] $uniqueUsers
+         */
+        foreach ($uniqueUsers as $uniqueUser) {
+            if (!empty($uniqueUser->notificationTypeId[$notificationType->id])) {
+                $filteredUsers[] = $uniqueUser;
+            } elseif (empty($uniqueUser->notificationTypeId)) {
+                $filteredUsers[] = $uniqueUser;
+            }
+
+        }
+
+        return $filteredUsers;
     }
 }

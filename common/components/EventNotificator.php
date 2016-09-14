@@ -32,7 +32,7 @@ class EventNotificator implements BootstrapInterface
             $eventName = $userEvent->eventClass->event_name;
                 Event::on($className::className(), $eventName, function ($event) use ($userEvent) {
                 foreach ($userEvent->notificationTypes as $notificationType) {
-                    $sender = SenderFactory::getSender($notificationType->class_name, $userEvent, $event->sender);
+                    $sender = SenderFactory::getSender($notificationType, $userEvent, $event->sender);
                     $sender->send();
                 }
             });

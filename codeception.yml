@@ -1,0 +1,9 @@
+include:
+  - tests/codeception/backend
+  - tests/codeception/frontend
+  - tests/codeception/common
+  - tests/codeception/console
+paths:
+  log: log
+settings:
+  colors: true

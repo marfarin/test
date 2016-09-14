@@ -31,3 +31,6 @@ phpunit.phar
 
 # vagrant runtime
 /.vagrant
+
+tests/_output/*
+tests/_output/*

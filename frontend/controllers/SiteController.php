@@ -71,13 +71,6 @@ class SiteController extends Controller
         ];
     }
 
-    public function actionLogin()
-    {
-        echo 'RRRR';
-        return 'QQQQ';
-    }
-
-
     /**
      * Displays homepage.
      *
@@ -85,38 +78,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        //var_dump(Yii::$app->controller, Yii::$app->controller->action, Yii::$app->module);
-        //Yii::$app->session->setFlash('error', [584 => 'Error 1', 'asdasd' => 'Error 2']);
         $abc = new ConfigureRbac();
 
         $abc->trigger(ConfigureRbac::SESSION_ATTEMPT_COUNT);
         return $this->render('index');
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash(
-                    'success',
-                    'Thank you for contacting us. We will respond to you as soon as possible.'
-                );
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending email.');
-            }
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
     }
 
     /**
