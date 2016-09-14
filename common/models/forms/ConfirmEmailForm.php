@@ -110,7 +110,7 @@ class ConfirmEmailForm extends Model
         $this->user->generateConfirmationToken();
         $this->user->save(false);
 
-        return \Yii::$app->mailer->compose('mail\emailConfirmationMail', ['user' => $this->user])
+        return \Yii::$app->mailer->compose('emailConfirmationMail', ['user' => $this->user])
             ->setFrom('info@integrarus.ru')
             ->setTo($this->email)
             ->setSubject(\Yii::t('app', 'E-mail confirmation for') . ' ' . \Yii::$app->name)

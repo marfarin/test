@@ -109,14 +109,19 @@ abstract class AbstractNotificationHelper extends Model
         /**
          * @var Role[] $roles
          */
+
         $userByRole = [];
-            
+
         foreach ($roles as $role) {
-            array_unique(array_merge($userByRole, $role->users));
+            array_merge($userByRole, $role->users);
         }
 
-        array_unique(array_merge($users, $userByRole));
+        $uniqueUsers = [];
 
-        return $users;
+        foreach ($userByRole as $item) {
+            $uniqueUsers[$item->id] = $item;
+        }
+
+        return $uniqueUsers;
     }
 }

@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\db\Query;
+use common\components\GhostAccessControl;
 
 /**
  * NotificationTypeController implements the CRUD actions for NotificationType model.
@@ -21,6 +22,9 @@ class NotificationTypeController extends Controller
     public function behaviors()
     {
         return [
+            'ghost-access' => [
+                'class' => GhostAccessControl::className(),
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

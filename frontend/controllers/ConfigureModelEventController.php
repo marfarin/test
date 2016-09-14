@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use frontend\models\EventClass;
 use frontend\models\NotificationType;
 use common\models\rbacDB\Role;
+use common\components\GhostAccessControl;
 
 /**
  * ConfigureModelEventController implements the CRUD actions for ConfigureModelEvent model.
@@ -24,6 +25,9 @@ class ConfigureModelEventController extends Controller
     public function behaviors()
     {
         return [
+            'ghost-access' => [
+                'class' => GhostAccessControl::className(),
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -120,13 +124,23 @@ class ConfigureModelEventController extends Controller
 
         $out_users = [];
         foreach ($model->users as $user) {
-            $out_users[$user->id] = $user->email;
+            $out_users[$user->id] = $user->username;
+        }
+
+        $out_roles = [];
+        foreach ($model->roles as $role) {
+            $out_roles[$role->name] = $role->description;
+        }
+
+        $out_notification = [];
+        foreach ($model->notificationTypes as $notificationType) {
+            $out_notification[$notificationType->id] = $notificationType->name;
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->unlinkAll('notificationTypes');
-            $model->unlinkAll('roles');
-            $model->unlinkAll('users');
+            $model->unlinkAll('notificationTypes', true);
+            $model->unlinkAll('roles', true);
+            $model->unlinkAll('users', true);
             foreach ($model->notificationTypeId as $item) {
                 $notificationType = NotificationType::find()->where(['id' => $item])->one();
                 $model->link('notificationTypes', $notificationType);
@@ -144,7 +158,9 @@ class ConfigureModelEventController extends Controller
             return $this->render('update', [
                 'model' => $model,
                 'default_data' => $out,
-                'default_data_users' => $out_users
+                'default_data_users' => $out_users,
+                'default_data_roles' => $out_roles,
+                'default_data_notification' => $out_notification
             ]);
         }
     }

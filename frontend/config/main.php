@@ -12,6 +12,9 @@ return [
     'bootstrap' => ['log', 'common\components\EventNotificator'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'userData' => function() {
+            return \common\models\User::findOne(Yii::$app->user->id);
+        },
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
@@ -59,7 +62,17 @@ return [
         'rules' => [
             [
                 'controllers' => ['auth'],
-                'actions' => ['login', 'error', 'requestPasswordReset', 'registration', 'captcha', 'confirm-registration-email'],
+                'actions' => [
+                    'login',
+                    'error',
+                    'password-recovery',
+                    'password-recovery-receive',
+                    'registration',
+                    'captcha',
+                    'confirm-registration-email',
+                    'confirm-email',
+                    'confirm-email-receive'
+                ],
                 'allow' => true,
             ],
             [

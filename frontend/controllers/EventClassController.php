@@ -13,6 +13,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\db\Query;
 use yii\helpers\Json;
+use common\components\GhostAccessControl;
 
 /**
  * EventClassController implements the CRUD actions for EventClass model.
@@ -26,6 +27,9 @@ class EventClassController extends Controller
     public function behaviors()
     {
         return [
+            'ghost-access' => [
+                'class' => GhostAccessControl::className(),
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

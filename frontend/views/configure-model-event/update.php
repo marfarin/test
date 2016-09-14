@@ -4,6 +4,10 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\ConfigureModelEvent */
+/**
+ * @var $default_data array
+ * @var $default_data_users array
+ */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
     'modelClass' => 'Configure Model Event',
@@ -18,7 +22,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
     <?= $this->render('_form', [
         'model' => $model,
-        'default_data' => $default_data
+        'default_data' => $default_data,
+        'default_data_users' => $default_data_users,
+        'default_data_roles' => $default_data_roles,
+        'default_data_notification' => $default_data_notification
     ]) ?>
 
 </div>

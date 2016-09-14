@@ -15,12 +15,9 @@ if (Yii::$app->controller->action->id === 'login') {
         ['content' => $content]
     );
 } else {
-    if (class_exists('append\assets\AppAsset')) {
-        append\assets\AppAsset::register($this);
-    } else {
-        frontend\assets\AppAsset::register($this);
-    }
+    frontend\assets\AppAsset::register($this);
 
+    $userData = \common\models\User::findOne(Yii::$app->user->id);
     dmstr\web\AdminLteAsset::register($this);
 
     $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
@@ -41,12 +38,18 @@ if (Yii::$app->controller->action->id === 'login') {
 
         <?= $this->render(
             'header.php',
-            ['directoryAsset' => $directoryAsset]
+            [
+                'directoryAsset' => $directoryAsset,
+                'userData' => $userData,
+            ]
         ) ?>
 
         <?= $this->render(
             'left.php',
-            ['directoryAsset' => $directoryAsset]
+            [
+                'directoryAsset' => $directoryAsset,
+                'userData' => $userData
+            ]
         )
         ?>
 

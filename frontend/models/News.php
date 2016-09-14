@@ -94,7 +94,7 @@ class News extends \yii\db\ActiveRecord
 
     public function beforeValidate()
     {
-        var_dump('qqqqqq');
+        var_dump('beforeValidate News');
         if ($this->isNewRecord) {
             $this->author_id = Yii::$app->user->id;
         }

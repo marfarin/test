@@ -11,6 +11,7 @@ use yii\widgets\ActiveForm;
 /* @var $model frontend\models\ConfigureModelEvent */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $default_data array */
+/* @var $default_data_users */
 
 \frontend\assets\ConfigureModelEventAsset::register($this);
 
@@ -93,6 +94,7 @@ SCRIPT;
 
 
 $userFields = (new \common\models\User())->attributeLabels();
+$senderName = empty($model->from) ? '' : \common\models\User::findOne($model->from)->username;
 ?>
 
 <div class="configure-model-event-form">
@@ -106,6 +108,7 @@ $userFields = (new \common\models\User())->attributeLabels();
     <?= $form->field($model, 'from')->textInput()->widget(Select2::className(), [
         //'initValueText' => $cityDesc, // set the initial display text
         'id' => 'sender_id',
+        'initValueText' => $senderName,
         'options' => ['placeholder' => 'Search for a sender ...'],
         'pluginOptions' => [
             'allowClear' => false,
@@ -124,13 +127,14 @@ $userFields = (new \common\models\User())->attributeLabels();
             'escapeMarkup' => new JsExpression(PHP_EOL . 'function (markup) { return markup; }'),
             'templateResult' => new JsExpression(PHP_EOL . 'function(city) { return city.text; }'),
             'templateSelection' => new JsExpression(PHP_EOL . 'function (city) { return city.text; }'),
-            'initSelection' => new JsExpression(PHP_EOL . $initScript),
+            //'initSelection' => new JsExpression(PHP_EOL . $initScript),
         ],
     ]) ?>
 
     <?= $form->field($model, 'userId')->widget(Select2::className(), [
         //'initValueText' => $cityDesc, // set the initial display text
         'options' => ['placeholder' => 'Search for a sender ...', 'multiple' => true],
+        'initValueText' => $default_data_users,
         'pluginOptions' => [
             'allowClear' => false,
             'minimumInputLength' => 1,
@@ -145,14 +149,14 @@ $userFields = (new \common\models\User())->attributeLabels();
             'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
             'templateResult' => new JsExpression('function(city) { return city.text; }'),
             'templateSelection' => new JsExpression('function (city) { return city.text; }'),
-            'initSelection' => new JsExpression($initScript),
+            //'initSelection' => new JsExpression($initScript),
             'multiple' => true,
-            'initialize' => true,
+            //'initialize' => true,
         ],
     ]) ?>
 
     <?= $form->field($model, 'roleId')->widget(Select2::className(), [
-        //'initValueText' => $cityDesc, // set the initial display text
+        'initValueText' => $default_data_roles, // set the initial display text
         'options' => ['placeholder' => 'Search for a sender ...', 'multiple' => true],
         'pluginOptions' => [
             'allowClear' => false,
@@ -168,9 +172,9 @@ $userFields = (new \common\models\User())->attributeLabels();
             'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
             'templateResult' => new JsExpression('function(city) { return city.text; }'),
             'templateSelection' => new JsExpression('function (city) { return city.text; }'),
-            'initSelection' => new JsExpression($initRoleScript),
+            //'initSelection' => new JsExpression($initRoleScript),
             'multiple' => true,
-            'initialize' => true,
+            //'initialize' => true,
         ],
     ]) ?>
 
@@ -237,7 +241,7 @@ $userFields = (new \common\models\User())->attributeLabels();
     <?= $form->field($model, 'message_text')->textarea(['rows' => 6])->hint('') ?>
 
     <?= $form->field($model, 'notificationTypeId')->widget(Select2::className(), [
-        //'initValueText' => $cityDesc, // set the initial display text
+        'initValueText' => $default_data_notification, // set the initial display text
         'options' => [
             'placeholder' => 'Search for a sender ...',
             'multiple' => true
@@ -256,7 +260,7 @@ $userFields = (new \common\models\User())->attributeLabels();
             'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
             'templateResult' => new JsExpression('function(city) { return city.text; }'),
             'templateSelection' => new JsExpression('function (city) { return city.text; }'),
-            'initSelection' => new JsExpression($initNotificationTypeScript),
+            //'initSelection' => new JsExpression($initNotificationTypeScript),
             'multiple' => true,
         ],
     ]) ?>

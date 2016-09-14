@@ -83,7 +83,7 @@ class PasswordRecoveryForm extends Model
         $this->user->generateConfirmationToken();
         $this->user->save(false);
 
-        return \Yii::$app->mailer->compose('mail\passwordRecoveryMail', ['user' => $this->user])
+        return \Yii::$app->mailer->compose('passwordRecoveryMail', ['user' => $this->user])
             ->setFrom('info@integrarus.ru')
             ->setTo($this->email)
             ->setSubject(\Yii::t('app', 'Password reset for') . ' ' . \Yii::$app->name)

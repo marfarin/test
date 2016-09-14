@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php if (Yii::$app->session->hasFlash('error')): ?>
         <div class="alert-alert-warning text-center">
-            <?= Yii::$app->session->getFlash('error') ?>
+            <?= \common\widgets\Alert::widget() ?>
         </div>
     <?php endif; ?>
 

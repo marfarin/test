@@ -1,34 +1,29 @@
 <?php
 use yii\helpers\Url;
 
+/**
+ * @var $userData \common\models\User
+ */
 ?>
 <aside class="main-sidebar">
 
     <section class="sidebar">
 
         <!-- Sidebar user panel -->
+        <?php if (!Yii::$app->user->isGuest) { ?>
         <div class="user-panel">
             <div class="pull-left image">
                 <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+
+                <p><?= $userData->username ?></p>
+
 
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
-
-        <!-- search form -->
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="<?= Yii::t('app', 'Search...'); ?>"/>
-              <span class="input-group-btn">
-                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-            </div>
-        </form>
-        <!-- /.search form -->
+        <?php } ?>
 
         <?= dmstr\widgets\Menu::widget(
             [
@@ -45,7 +40,8 @@ use yii\helpers\Url;
                             ['label' => Yii::t('app', 'Permissions'), 'url' => ['/permission/index']],
                             ['label' => Yii::t('app', 'Permission groups'), 'url' => ['/auth-item-group/index']],
                             ['label' => Yii::t('app', 'Visit log'), 'url' => ['/user-visit-log/index']],
-                        ]
+                        ],
+                        'visible' => (!Yii::$app->user->isGuest)
                     ],
                     [
                         'label' => Yii::t('app', 'Notifications'),
@@ -55,7 +51,8 @@ use yii\helpers\Url;
                             ['label' => Yii::t('app', 'Notification configure'), 'url' => ['/configure-model-event/index']],
                             ['label' => Yii::t('app', 'Events and classes'), 'url' => ['/event-class/index']],
                             ['label' => Yii::t('app', 'Notification types'), 'url' => ['/notification-type/index']],
-                        ]
+                        ],
+                        'visible' => (!Yii::$app->user->isGuest)
                     ],
                     [
                         'label' => 'Developer tools',
@@ -64,7 +61,8 @@ use yii\helpers\Url;
                         'items' => [
                             ['label' => 'Gii', 'icon' => 'fa fa-file-code-o', 'url' => ['/gii']],
                             ['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug']],
-                        ]
+                        ],
+                        'visible' => (!Yii::$app->user->isGuest)
                     ],
                     [
                         'label' => 'Frontend routes',
@@ -78,9 +76,12 @@ use yii\helpers\Url;
                             ['label' => Yii::t('app', 'Change own password'), 'url' => ['/auth/change-own-password']],
                             ['label' => Yii::t('app', 'Password recovery'), 'url' => ['/auth/password-recovery']],
                             ['label' => Yii::t('app', 'E-mail confirmation'), 'url' => ['/auth/confirm-email']],
-                        ]
+                        ],
+                        'visible' => (!Yii::$app->user->isGuest)
                     ],
                     ['label' => 'Login', 'url' => ['auth/login'], 'visible' => Yii::$app->user->isGuest],
+                    ['label' => 'Registration', 'url' => ['auth/registration'], 'visible' => Yii::$app->user->isGuest],
+                    ['label' => 'Password recovery', 'url' => ['auth/password-recovery'], 'visible' => Yii::$app->user->isGuest],
                 ],
             ]
         ) ?>
