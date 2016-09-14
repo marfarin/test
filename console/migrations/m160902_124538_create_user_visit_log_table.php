@@ -21,7 +21,7 @@ class m160902_124538_create_user_visit_log_table extends Migration
             'browser' => $this->string(20),
             'os' => $this->string(20),
             'user_id' => $this->integer(),
-            'visit_time' => $this->timestamp()->notNull(),
+            'visit_time' => $this->timestamp()->notNull()->defaultExpression('NOW()'),
         ]);
         
         $this->addForeignKey('fk-user_visit_log-user_id', 'user_visit_log', 'user_id', 'user', 'id', 'SET NULL', 'CASCADE');

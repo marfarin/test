@@ -17,8 +17,8 @@ class m160907_092705_create_news_table extends Migration
             'author_id' => $this->integer()->notNull(),
             'preview' => $this->string(255)->notNull(),
             'news' => $this->text()->notNull(),
-            'created_at' => $this->timestamp()->notNull(),
-            'updated_at' => $this->timestamp()->notNull()
+            'created_at' => $this->timestamp()->defaultValue(null),
+            'updated_at' => $this->timestamp()->defaultValue(null)
         ]);
         
         $this->createIndex('idx-news-author_id', 'news', 'author_id');

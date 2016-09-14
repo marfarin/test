@@ -17,8 +17,8 @@ class m160909_111714_create_junction_table_for_auth_item_and_configure_model_eve
     public function up()
     {
         $this->createTable('auth_item_configure_model_event', [
-            'auth_item_id' => $this->string(64),
-            'configure_model_event_id' => $this->integer(),
+            'auth_item_id' => $this->string(64)->notNull(),
+            'configure_model_event_id' => $this->integer()->notNull(),
             'PRIMARY KEY(auth_item_id, configure_model_event_id)',
         ]);
 
@@ -35,8 +35,7 @@ class m160909_111714_create_junction_table_for_auth_item_and_configure_model_eve
             'auth_item_configure_model_event',
             'auth_item_id',
             'auth_item',
-            'name',
-            'CASCADE'
+            'name'
         );
 
         // creates index for column `configure_model_event_id`
@@ -52,8 +51,7 @@ class m160909_111714_create_junction_table_for_auth_item_and_configure_model_eve
             'auth_item_configure_model_event',
             'configure_model_event_id',
             'configure_model_event',
-            'id',
-            'CASCADE'
+            'id'
         );
     }
 

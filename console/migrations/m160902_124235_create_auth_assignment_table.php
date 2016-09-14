@@ -15,7 +15,7 @@ class m160902_124235_create_auth_assignment_table extends Migration
         $this->createTable('auth_assignment', [
             'item_name' => $this->string(64)->notNull(),
             'user_id' => $this->integer()->notNull(),
-            'created_at' => $this->timestamp(),
+            'created_at' => $this->timestamp()->defaultValue(null),
             'PRIMARY KEY (item_name, user_id)',
         ],
             'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB'

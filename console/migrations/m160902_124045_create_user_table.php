@@ -24,8 +24,8 @@ class m160902_124045_create_user_table extends Migration
             'superadmin' => $this->boolean()->defaultValue(false),
             'registration_ip' => $this->string(15),
             'bind_to_ip' => $this->string(),
-            'created_at' => $this->timestamp()->notNull(),
-            'updated_at' => $this->timestamp()->notNull(),
+            'created_at' => $this->timestamp()->defaultValue(null),
+            'updated_at' => $this->timestamp()->defaultValue(null),
         ]);
     }
 

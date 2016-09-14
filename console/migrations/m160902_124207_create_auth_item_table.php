@@ -19,8 +19,8 @@ class m160902_124207_create_auth_item_table extends Migration
             'rule_name' => $this->string(64),
             'group_code' => $this->string(64),
             'data' => $this->text(),
-            'created_at' => $this->timestamp(),
-            'updated_at' => $this->timestamp(),
+            'created_at' => $this->timestamp()->defaultValue(null),
+            'updated_at' => $this->timestamp()->defaultValue(null),
             
             'PRIMARY KEY (name)'
         ],

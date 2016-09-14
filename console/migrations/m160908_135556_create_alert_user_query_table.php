@@ -18,7 +18,7 @@ class m160908_135556_create_alert_user_query_table extends Migration
             'text'=>$this->text()->notNull(),
             'sender_id'=>$this->integer()->notNull(),
             'recipient_id'=>$this->integer()->notNull(),
-            'created_at'=>$this->timestamp()->notNull(),
+            'created_at'=>$this->timestamp()->notNull()->defaultExpression('NOW()'),
             'readed_at'=>$this->timestamp()->defaultValue(null)
         ]);
 
