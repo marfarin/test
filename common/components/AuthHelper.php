@@ -57,7 +57,7 @@ class AuthHelper
         $session->remove(self::SESSION_PREFIX_ROUTES);
 
         // Set permissions last mod time
-        $session->set(self::SESSION_PREFIX_LAST_UPDATE, filemtime(self::getPermissionsLastModFile()));
+        // $session->set(self::SESSION_PREFIX_LAST_UPDATE, filemtime(self::getPermissionsLastModFile()));
 
         // Save roles, permissions and routes in session
         $session->set(self::SESSION_PREFIX_ROLES, array_keys(Role::getUserRoles($identity->id)));

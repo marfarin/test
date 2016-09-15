@@ -3,7 +3,7 @@
 namespace tests\codeception\common\_pages;
 
 use yii\codeception\BasePage;
-use common\models\LoginForm;
+use common\models\forms\LoginForm;
 
 /**
  * Represents loging page

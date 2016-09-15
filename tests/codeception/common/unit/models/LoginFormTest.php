@@ -5,7 +5,7 @@ namespace tests\codeception\common\unit\models;
 use Yii;
 use tests\codeception\common\unit\DbTestCase;
 use Codeception\Specify;
-use common\models\LoginForm;
+use common\models\forms\LoginForm;
 use tests\codeception\common\fixtures\UserFixture;
 
 /**
@@ -23,7 +23,7 @@ class LoginFormTest extends DbTestCase
         Yii::configure(Yii::$app, [
             'components' => [
                 'user' => [
-                    'class' => 'yii\web\User',
+                    'class' => 'common\components\UserConfig',
                     'identityClass' => 'common\models\User',
                 ],
             ],
