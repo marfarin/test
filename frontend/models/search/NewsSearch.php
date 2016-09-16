@@ -44,10 +44,13 @@ class NewsSearch extends News
         $query = News::find();
 
         // add conditions that should always apply here
-
-        $dataProvider = new ActiveDataProvider([
+        $configActiveDataProvider = [
             'query' => $query,
-        ]);
+        ];
+
+        $dataProvider = new ActiveDataProvider($configActiveDataProvider);
+
+
 
         $this->load($params);
 

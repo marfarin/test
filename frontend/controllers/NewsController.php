@@ -8,6 +8,7 @@ use frontend\models\search\NewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\components\GhostAccessControl;
 
 /**
  * NewsController implements the CRUD actions for News model.
@@ -25,6 +26,9 @@ class NewsController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
+            ],
+            'ghost-access' => [
+                'class' => GhostAccessControl::className(),
             ],
         ];
     }

@@ -1,20 +1,14 @@
 <?php
 namespace frontend\controllers;
 
-use common\models\ConfigureRbac;
-use frontend\models\Checkpoint;
-use frontend\models\Device;
-use frontend\models\EventClass;
+use frontend\models\News;
 use Yii;
-use frontend\models\forms\SignupForm;
-use frontend\models\forms\ContactForm;
-use yii\base\InvalidParamException;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\behaviors\AccessBehavior;
-
+use frontend\models\search\NewsSearch;
+use common\components\GhostAccessControl;
 
 /**
  * Site controller
@@ -52,6 +46,9 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
+            'ghost-access' => [
+                'class' => GhostAccessControl::className(),
+            ],
         ];
     }
 
@@ -78,10 +75,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $abc = new ConfigureRbac();
-
-        $abc->trigger(ConfigureRbac::SESSION_ATTEMPT_COUNT);
-        return $this->render('index');
+        $searchModel = new NewsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -92,6 +91,13 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionViewNews($id)
+    {
+        return $this->render('view', [
+            'model' => News::findOne($id),
+        ]);
     }
     
 }
