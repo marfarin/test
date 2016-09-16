@@ -219,8 +219,8 @@ $senderName = empty($model->from) ? '' : \common\models\User::findOne($model->fr
     <div id="copy_header_buttons" class="form-group">
         <?php
         foreach ($userFields as $key => $userField) {
-            echo Html::button('ADMIN ' . $userField,
-                ['class' => 'btn btn-success copy-to-header', 'value' => '{admin.' . $key . '}']);
+            echo Html::button('SENDER ' . $userField,
+                ['class' => 'btn btn-success copy-to-header', 'value' => '{sender.' . $key . '}']);
             echo Html::button('USER ' . $userField,
                 ['class' => 'btn btn-success copy-to-header', 'value' => '{user.' . $key . '}']);
         }
@@ -231,8 +231,8 @@ $senderName = empty($model->from) ? '' : \common\models\User::findOne($model->fr
     <div id="copy_text_buttons" class="form-group">
         <?php
         foreach ($userFields as $key => $userField) {
-            echo Html::button('ADMIN ' . $userField,
-                ['class' => 'btn btn-success copy-to-text', 'value' => '{admin.' . $key . '}']);
+            echo Html::button('SENDER ' . $userField,
+                ['class' => 'btn btn-success copy-to-text', 'value' => '{sender.' . $key . '}']);
             echo Html::button('USER ' . $userField,
                 ['class' => 'btn btn-success copy-to-text', 'value' => '{user.' . $key . '}']);
         }

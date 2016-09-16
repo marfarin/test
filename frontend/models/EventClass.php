@@ -93,7 +93,6 @@ class EventClass extends \yii\db\ActiveRecord
         $models = array_merge($models, ClassListHelper::getClassList(Yii::getAlias('@frontend')));
         $models = array_merge($models, ClassListHelper::getClassList(Yii::getAlias('@common')));
         $models = array_merge($models, ClassListHelper::getClassList(Yii::getAlias('@console')));
-        $models = array_merge($models, ClassListHelper::getClassList(Yii::getAlias('@backend')));
 
         $resultArray = [];
         /**

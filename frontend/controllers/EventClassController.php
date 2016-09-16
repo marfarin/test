@@ -47,12 +47,17 @@ class EventClassController extends Controller
     {
         $searchModel = new EventClassSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        EventClass::getClassList();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionUpdateEventClass()
+    {
+        EventClass::getClassList();
+        return $this->redirect('index');
     }
 
     /**
