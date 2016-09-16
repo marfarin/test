@@ -15,7 +15,7 @@ use frontend\models\NotificationType;
 class SenderFactory
 {
     /**
-     * @param NotificationType $senderClass
+     * @param NotificationType $notificationType
      * @param ConfigureModelEvent $configureModelEvent
      * @param \yii\base\Model $model
      * @return mixed
@@ -25,6 +25,7 @@ class SenderFactory
         $senderClass = $notificationType->class_name;
         $senderClass = $senderClass::className();
         $sender = new $senderClass;
+
         if ($sender instanceof AbstractNotificationHelper) {
             /**
              * @var AbstractNotificationHelper $sender
@@ -32,6 +33,7 @@ class SenderFactory
             $sender->model = $model;
             $sender->configureModelEvent = $configureModelEvent;
             $sender->users = $sender->getUsers($notificationType);
+
             return $sender;
         }
         return null;

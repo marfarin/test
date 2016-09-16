@@ -15,15 +15,16 @@ class EmailNotificationHelper extends AbstractNotificationHelper
         $users = $this->users;
         $author = $this->configureModelEvent->sender;
         foreach ($users as $user) {
-            if ($user->notificationTypeId)
-            $htmlBody = $this->getText($user);
-            \Yii::$app->mailer->compose()
-                ->setFrom($author->email)
-                ->setTo($user->email)
-                ->setSubject($this->getHeader($user))
-                ->setTextBody(preg_replace('/<[^>]+>/', '', $htmlBody))
-                ->setHtmlBody($htmlBody)
-                ->send();
+            if ($user->notificationTypeId) {
+                $htmlBody = $this->getText($user);
+                \Yii::$app->mailer->compose()
+                    ->setFrom($author->email)
+                    ->setTo($user->email)
+                    ->setSubject($this->getHeader($user))
+                    ->setTextBody(preg_replace('/<[^>]+>/', '', $htmlBody))
+                    ->setHtmlBody($htmlBody)
+                    ->send();
+            }
         }
     }
 

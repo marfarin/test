@@ -20,7 +20,9 @@ return [
             'charset' => 'utf8',
         ],
         'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
             'useFileTransport' => true,
+            'fileTransportPath' => '/home/panik/projects/rgk/tests/codeception/mail',
         ],
         'urlManager' => [
             'showScriptName' => true,

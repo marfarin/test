@@ -110,6 +110,7 @@ abstract class AbstractNotificationHelper extends Model
     {
         $users = $this->configureModelEvent->users;
         $roles = $this->configureModelEvent->roles;
+
         /**
          * @var Role[] $roles
          */
@@ -119,6 +120,7 @@ abstract class AbstractNotificationHelper extends Model
         foreach ($roles as $role) {
             array_merge($userByRole, $role->users);
         }
+
 
         $uniqueUsers = [];
 
@@ -132,10 +134,13 @@ abstract class AbstractNotificationHelper extends Model
 
         $filteredUsers = [];
 
+
+
         /**
          * @var User[] $uniqueUsers
          */
         foreach ($uniqueUsers as $uniqueUser) {
+
             if (!empty($uniqueUser->notificationTypeId[$notificationType->id])) {
                 $filteredUsers[] = $uniqueUser;
             } elseif (empty($uniqueUser->notificationTypeId)) {
